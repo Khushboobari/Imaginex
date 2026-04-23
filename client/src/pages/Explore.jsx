@@ -9,14 +9,12 @@ import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 
 const Explore = () => {
-
-  const { posts, postLoading, postSucess, postError, postErrorMessage } = useSelector(state => state.post)
+  const { posts, postLoading, postSuccess, postError, postErrorMessage } = useSelector(state => state.post)
 
 
   const dispatch = useDispatch()
 
-
-  const activePosts = posts.filter(post => post.isPublished)
+  const activePosts = posts?.filter(post => post?.isPublished) || []
 
 
   useEffect(() => {
@@ -41,7 +39,7 @@ const Explore = () => {
               <h1 className="text-3xl font-syne font-bold mb-6">Discover</h1>
             </div>
 
-            {posts.length > 0 ? (
+            {posts?.length > 0 ? (
               <MasonryGrid>
                 {activePosts.map(post => (
                   <PostCard key={post._id} post={post} />

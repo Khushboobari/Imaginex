@@ -12,7 +12,7 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 // Configuration
 cloudinary.config({
-    cloud_name: 'dqdejbfnx',
+    cloud_name: 'daiawfeup',
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
@@ -31,9 +31,12 @@ const uploadToCloudinary = async (filePath) => {
         }
         )
         .catch((error) => {
-            console.log(error);
+            console.error("Cloudinary Upload Error:", error);
             // If failes remove file from our server
-            fs.unlinkSync(filePath)
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
+            throw new Error("Unable to upload image to Cloudinary");
         });
     return uploadResult
 
