@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "node --watch server/server.js"
+    "dev": "concurrently \"nodemon server/server.js\" \"vite\"",
+    "build:server": "npm ci && npm run lint && npm run test",
+    "build:client": "vite build",
+    "lint": "eslint . --ext .js,.jsx",
+    "test": "echo \"No test suite defined\""
   },
   "author": "",
   "license": "ISC",

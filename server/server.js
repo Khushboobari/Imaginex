@@ -67,4 +67,7 @@ app.use(errorHandler)
 
 app.listen(PORT, () => {
     console.log(`SERVER IS RUNNING AT PORT : ${PORT}`.bgBlue.black)
-})
+}).on('error', err => {
+    console.error('❌ Server failed to start:', err);
+    process.exit(1);
+});
