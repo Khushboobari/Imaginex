@@ -104,7 +104,7 @@ const postSlice = createSlice({
     }
 });
 
-export const { } = postSlice.actions
+// No synchronous actions to export
 
 export default postSlice.reducer
 

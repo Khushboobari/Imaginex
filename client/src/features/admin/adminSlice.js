@@ -105,7 +105,7 @@ const adminSlice = createSlice({
     }
 });
 
-export const { } = adminSlice.actions
+// No synchronous actions to export
 
 export default adminSlice.reducer
 

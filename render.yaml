@@ -5,35 +5,33 @@ services:
     env: node
     plan: free
     region: oregon
-    buildCommand: npm ci && npm run build:server
+    buildCommand: npm ci
     startCommand: npm start
-    healthCheckPath: /health
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
-        fromService:
-          name: imaginex-backend
-          property: port
-      - key: DATABASE_URL
-        fromService:
-          name: imaginex-db
-          property: connectionString
+        value: "8080"
+      - key: MONGO_URI
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: CLOUDINARY_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
     autoDeploy: true
 
   # Frontend (Vite)
   - type: static
     name: imaginex-frontend
-    buildCommand: npm ci && npm run build:client
+    buildCommand: cd client && npm ci && npm run build
     staticPublishPath: client/dist
     envVars:
       - key: VITE_BACKEND_URL
-        value: https://{{service.imaginex-backend.url}}
+        value: https://imaginex-backend.onrender.com
     autoDeploy: true
-
-databases:
-  - name: imaginex-db
-    plan: free
-    databaseName: imaginex
-    user: imaginex_user
-    password: ${POSTGRES_PASSWORD}

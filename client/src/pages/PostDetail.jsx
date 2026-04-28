@@ -13,15 +13,22 @@ const PostDetail = () => {
 
   const [modal, setModal] = useState(false)
   const [text, setText] = useState("")
-  // Generate seed once
-  const seed = React.useMemo(() => Math.floor(Math.random() * 999999999), [])
+  const { pid } = useParams();
+  // Generate a stable seed from the post ID
+  const seed = React.useMemo(() => {
+    let hash = 0;
+    for (let i = 0; i < pid.length; i++) {
+      hash = ((hash << 5) - hash) + pid.charCodeAt(i);
+      hash |= 0;
+    }
+    return Math.abs(hash) % 999999999;
+  }, [pid])
 
 
   const { post, postLoading, postSucess, postError, postErrorMessage } = useSelector(state => state.post)
 
   const { profile, profileLoading, profileSuccess, profileError, profileErrorMessage } = useSelector(state => state.profile)
 
-  const { pid } = useParams();
   const dispatch = useDispatch()
 
   let alreadyFollowed = profile.following.some(follow => follow?._id === post?.user?._id)
