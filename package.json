@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "concurrently \"nodemon server/server.js\" \"vite\"",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client",
     "build:server": "npm ci && npm run lint && npm run test",
     "build:client": "vite build",
     "lint": "eslint . --ext .js,.jsx",

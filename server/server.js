@@ -34,12 +34,14 @@ app.use(express.json())
 app.use(express.urlencoded())
 
 
-// Default Route
-app.get("/", (req, res) => {
-    res.json({
-        message: "WELCOME TO IMAGINEX API..."
+// Default Route (For development)
+if (process.env.NODE_ENV !== 'production') {
+    app.get("/", (req, res) => {
+        res.json({
+            message: "WELCOME TO IMAGINEX API..."
+        })
     })
-})
+}
 
 
 // Auth Routes
@@ -61,6 +63,14 @@ app.use("/api/posts", postRoutes)
 app.use("/api/saved-posts", savedPostsRoutes)
 
 
+
+// Serve Frontend in Production
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/dist')));
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+    });
+}
 
 // Error Handler
 app.use(errorHandler)
