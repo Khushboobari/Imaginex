@@ -42,15 +42,16 @@ const generateAndPost = async (req, res) => {
             throw new Error("Kindly Provide Prompt To Generate Image!")
         }
 
-        // Use Pollinations for AI Image Generation
-        const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`;
-        console.log(`[DEBUG] Fetching image from Pollinations AI: ${pollinationsUrl}`);
+        // Since Pollinations AI is currently returning 402 Payment Required, using a stable placeholder image generator for testing the flow.
+        const seed = crypto.randomUUID();
+        const pollinationsUrl = `https://picsum.photos/seed/${seed}/800/800`;
+        console.log(`[DEBUG] Fetching image from placeholder service: ${pollinationsUrl}`);
         
         const imageResponse = await fetch(pollinationsUrl);
-        console.log(`[DEBUG] Pollinations AI Response Status: ${imageResponse.status}`);
+        console.log(`[DEBUG] Image service Response Status: ${imageResponse.status}`);
         
         if (!imageResponse.ok) {
-            throw new Error("Failed to generate image.");
+            throw new Error(`Failed to generate image (Status: ${imageResponse.status}).`);
         }
         
         const arrayBuffer = await imageResponse.arrayBuffer();
@@ -95,9 +96,9 @@ const generateAndPost = async (req, res) => {
 
 
     } catch (error) {
-        console.log(error.message)
-        res.status(409)
-        throw new Error("Post Not Created!")
+        console.log("Error in generateAndPost:", error.message);
+        res.status(409);
+        throw new Error(error.message || "Post Not Created!");
     }
 
 }
