@@ -105,7 +105,7 @@ const generateAndPost = async (req, res) => {
 
 
 const getPosts = async (req, res) => {
-    const posts = await Post.find().populate('user')
+    const posts = await Post.find().sort({ createdAt: -1 }).populate('user')
 
     if (!posts) {
         res.status(404)

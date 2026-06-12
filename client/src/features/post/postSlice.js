@@ -25,6 +25,7 @@ const postSlice = createSlice({
                 state.postLoading = false
                 state.postSuccess = true
                 state.post = action.payload
+                state.posts = [action.payload, ...state.posts] // Immediately add the new post to the frontend state
                 state.postError = false
             })
             .addCase(generatePost.rejected, (state, action) => {

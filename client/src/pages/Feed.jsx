@@ -21,11 +21,7 @@ const Feed = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const filteredPosts = posts?.filter(post =>
-    profile?.following?.some(follow =>
-      follow._id === post.user._id
-    )
-  ).filter(post => post.isPublished)
+  const filteredPosts = posts?.filter(post => post.isPublished) || []
 
 
 
