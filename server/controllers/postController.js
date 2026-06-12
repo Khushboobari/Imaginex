@@ -42,16 +42,17 @@ const generateAndPost = async (req, res) => {
             throw new Error("Kindly Provide Prompt To Generate Image!")
         }
 
-        // Since Pollinations AI is currently returning 402 Payment Required, using a stable placeholder image generator for testing the flow.
-        const seed = crypto.randomUUID();
-        const pollinationsUrl = `https://picsum.photos/seed/${seed}/800/800`;
-        console.log(`[DEBUG] Fetching image from placeholder service: ${pollinationsUrl}`);
+        // Use Pollinations AI to generate an accurate image matching the user's prompt
+        const seed = Math.floor(Math.random() * 1000000);
+        const pollinationsUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=800&height=800&nologo=true&seed=${seed}`;
+        console.log(`[DEBUG] Fetching generated image from Pollinations AI: ${pollinationsUrl}`);
         
         const imageResponse = await fetch(pollinationsUrl);
         console.log(`[DEBUG] Image service Response Status: ${imageResponse.status}`);
         
         if (!imageResponse.ok) {
-            throw new Error(`Failed to generate image (Status: ${imageResponse.status}).`);
+            const errorMsg = await imageResponse.text().catch(() => "");
+            throw new Error(`Failed to generate image (Status: ${imageResponse.status}). ${errorMsg}`);
         }
         
         const arrayBuffer = await imageResponse.arrayBuffer();
