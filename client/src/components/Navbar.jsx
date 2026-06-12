@@ -39,7 +39,7 @@ const Navbar = () => {
           <Bell className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-fuchsia-500 rounded-full"></span>
         </button>
-        <Link to={`/profile/${user?.name}`}>
+        <Link to={`/auth/profile/${user?.name}`}>
           <UserAvatar alt={user?.name} size="sm" isOnline ring />
         </Link>
       </div>
